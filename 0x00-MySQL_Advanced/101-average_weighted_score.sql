@@ -8,7 +8,7 @@ DELIMITER $$
 CREATE PROCEDURE `CalcAverageWeightedScoreForUser`(IN user_id INT)
 COMMENT 'Compute and store the average weighted score for a student'
 PROC_EXIT: BEGIN
-	/* Assuming that user_id is linked to an existing users */
+	/* If a user does not exist, it ends execution */
 	/* The result is stored in `users`.`average_score` */
 	DECLARE weight_sum FLOAT DEFAULT NULL;
 	DECLARE total_score FLOAT DEFAULT NULL;
@@ -58,22 +58,26 @@ $$
 CREATE PROCEDURE `ComputeAverageWeightedScoreForUsers`()
 COMMENT 'Compute the average weighted score for all students'
 BEGIN
-	DECLARE done INT DEFAULT 0;
+	DECLARE user_id INT DEFAULT NULL;
+	DECLARE done INT DEFAULT FALSE;
 
 	DECLARE cur_all_users
 	CURSOR FOR
 	SELECT id FROM users;
 
-	DECLARE user_id INT DEFAULT NULL;
+	-- continue handler
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 	-- Start fetching data
 	OPEN cur_all_users;
-	LABEL: LOOP
-		FETCH cur_all_users INTO user_id;
-		CalcAverageWeightedScoreForUser(user_id);		
-		IF done = 1 THEN
-			LEAVE LABEL;
+
+	calc_avg: LOOP
+		IF done THEN
+			LEAVE calc_avg;
 		END IF;
+
+		FETCH cur_all_users INTO user_id;
+		CALL CalcAverageWeightedScoreForUser(user_id);		
 	END LOOP;
 
 	CLOSE cur_all_users;
