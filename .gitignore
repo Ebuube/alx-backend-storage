@@ -1,2 +1,5 @@
 # Zip
 *.zip
+
+# A large backup
+names.sql
