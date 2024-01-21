@@ -26,7 +26,8 @@ PROC_EXIT: BEGIN
 	
 
 	-- Get the total sum of the weights since the weights don't add up to 1
-	SELECT SUM(weight) INTO weight_sum
+	-- Equally get sum of projects.weight * corrections.score = total_score
+	SELECT SUM(weight), SUM(weight * score) INTO weight_sum, total_score
 	FROM users
 	JOIN corrections ON corrections.user_id = users.id
 	JOIN projects ON projects.id = corrections.project_id
@@ -34,12 +35,13 @@ PROC_EXIT: BEGIN
 
 	-- SELECT weight_sum;	/* test */
 
-	-- get sum of projects.weight * corrections.score
+	/*
 	SELECT SUM(weight * score) INTO total_score
 	FROM users
 	JOIN corrections ON corrections.user_id = users.id
 	JOIN projects ON projects.id = corrections.project_id
 	WHERE users.id = user_id;
+	*/
 
 	-- SELECT total_score; /* test */
 
