@@ -24,30 +24,17 @@ PROC_EXIT: BEGIN
 		LEAVE PROC_EXIT;
 	END IF;
 	
-
 	-- Get the total sum of the weights since the weights don't add up to 1
 	-- Equally get sum of projects.weight * corrections.score = total_score
-	SELECT SUM(weight), SUM(weight * score) INTO weight_sum, total_score
+	SELECT SUM(weight), SUM(weight * score)
+	INTO weight_sum, total_score
 	FROM users
 	JOIN corrections ON corrections.user_id = users.id
 	JOIN projects ON projects.id = corrections.project_id
 	WHERE users.id = user_id;
 
-	-- SELECT weight_sum;	/* test */
-
-	/*
-	SELECT SUM(weight * score) INTO total_score
-	FROM users
-	JOIN corrections ON corrections.user_id = users.id
-	JOIN projects ON projects.id = corrections.project_id
-	WHERE users.id = user_id;
-	*/
-
-	-- SELECT total_score; /* test */
-
+	-- Compute weighted average
 	SET weighted_avg = total_score / weight_sum;
-
-	-- SELECT weighted_avg; 	/* test */
 
 	-- Update user's average score
 	UPDATE users
@@ -60,6 +47,10 @@ $$
 CREATE PROCEDURE `ComputeAverageWeightedScoreForUsers`()
 COMMENT 'Compute the average weighted score for all students'
 BEGIN
+	/*
+	 * Iterate through the users table and compute weighted average
+	 * for each user
+	*/
 	DECLARE user_id INT DEFAULT NULL;
 	DECLARE done INT DEFAULT FALSE;
 
