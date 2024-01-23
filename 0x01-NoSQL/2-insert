@@ -1,9 +1,2 @@
 // Insert document
-
-// Create collection - analogous to RDBMS tables
-// db.school;
-
-// Add document	 - analogous to RDBMS rows
-db.school.insertOne({
-    "name": "Holberton school"
-});
+db.school.insertOne({"name": "Holberton school"})
