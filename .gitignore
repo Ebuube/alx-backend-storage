@@ -3,3 +3,6 @@
 
 # A large backup
 names.sql
+
+# Python cache
+__pycache__/
