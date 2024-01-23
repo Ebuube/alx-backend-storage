@@ -1,5 +1,5 @@
 // Update
-db.school.updateOne(
+db.school.update(
 	{
 		name: "Holberton school"
 	},
