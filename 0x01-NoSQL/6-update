@@ -6,5 +6,8 @@ db.school.update(
 	{
 		$set:
 			{address: "972 Mission street"}
+	},
+	{
+		multi: true
 	}
 )
