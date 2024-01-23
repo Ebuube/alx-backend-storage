@@ -6,4 +6,6 @@ db.school;
 
 
 // Add document	 - analogous to RDBMS rows
-db.school.insertOne({"name": "Holberton school"});
+db.school.insertOne({
+    "name": "Holberton school"
+});
