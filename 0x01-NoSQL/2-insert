@@ -1,4 +1,4 @@
 // Insert document
 // A collection is analogous to table in RDBMS
 // A document is analogous to a row in RDBMS
-db.school.insertOne({ name: "Holberton school" })
+db.school.insert({ name: "Holberton school" })
