@@ -6,4 +6,5 @@ def insert_school(mongo_collection, **kwargs):
     """
     Insert a document in Python
     """
-    return mongo_collection.insert_one(kwargs)
+    insert_ret = mongo_collection.insert_one(kwargs)
+    return insert_ret.inserted_id
