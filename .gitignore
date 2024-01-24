@@ -9,3 +9,6 @@ __pycache__/
 
 # MongoDB dump
 dump/
+
+# Vim swp files
+*.swp
