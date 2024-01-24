@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Print log statistics"""
 from pymongo import MongoClient
-from itertools import islice
 
 
 def sort_by_val(dict_obj, limit=0, reverse=False):
@@ -11,14 +10,19 @@ def sort_by_val(dict_obj, limit=0, reverse=False):
     {key: integer value}
 
     limit: number of key=value pairs to return. If set to 0,
-        return the all the items
+        return the all the items. 0 <= limit <= infinity
     reverse: Whether to sort in ascending or descending order
     """
     top = {}
-    if type(dict_obj) is not dict:
+    if type(dict_obj) is not dict or limit < 0:
         return {}
 
-    return dict_obj
+    sorted_tup = sorted(dict_obj.items(), key=lambda x: x[1], reverse=reverse)
+
+    if limit == 0:
+        return dict(sorted_tup)
+    else:
+        return dict(list(sorted_tup)[:limit])
 
 
 def log_stat():
@@ -63,10 +67,7 @@ def log_stat():
             ips[log['ip']] = 1
 
     # Sort IPs by count
-    # ips = dict(sorted(ips, key=lambda item: item[1], reverse=True))
-    # top_10 = dict(islice(ips.items(), 10))
-    sorted_ips  = sorted(ips.items(), key=lambda x: x[1] , reverse=True)
-    top_10 = dict(list(sorted_ips)[:10])
+    top_10 = sort_by_val(ips, limit=10, reverse=True)
 
     # Print details
     print("{} logs".format(log_count))
