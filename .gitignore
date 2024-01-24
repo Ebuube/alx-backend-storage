@@ -6,3 +6,9 @@ names.sql
 
 # Python cache
 __pycache__/
+
+# MongoDB dump
+dump/
+
+# Vim swp files
+*.swp
