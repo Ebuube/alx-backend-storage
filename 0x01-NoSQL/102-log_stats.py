@@ -41,7 +41,6 @@ def log_stat():
     status_count = 0
     ips = {}
 
-
     for log in nginx.find({}):
         log_count += 1
 
