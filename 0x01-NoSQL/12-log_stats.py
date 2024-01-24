@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 """Print log statistics"""
 from pymongo import MongoClient
-from pymongo.cursor import Cursor
 
 
 def count(cursor):
     """
     Return the number of elements in a pymongo cursor object
     """
-    if type(cursor) is not Cursor:
-        return -1
-
     size = (
             cursor.explain()
             .get('executionStats')
