@@ -31,7 +31,6 @@ def cache(method: Callable) -> Callable:
             db.incr(url_key)
             db.setex(result_key, time_live, result)
         else:
-            db.incr(url_key)
             result_bytes = db.get(result_key)
             if result_bytes:
                 result = result_bytes.decode('utf-8')

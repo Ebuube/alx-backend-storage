@@ -9,6 +9,7 @@ url = 'http://slowwly.robertomurray.co.uk'
 db = redis.Redis()
 
 get_page(url)
+print("Number of calls: {}".format(db.get(f'count:{url}')))
 
 # Verifying content is cached
 print("Verifying content is cached")
@@ -27,6 +28,7 @@ for count in range(0, 4):
 
 
 get_page(url)
+print("Number of calls: {}".format(db.get(f'count:{url}')))
 # Verify content is recached if None
 print("Verify content is recached if None")
 for count in range(0, 4):
@@ -40,5 +42,3 @@ for count in range(0, 4):
         result = result_bytes
 
     print(f"time: {time_live * count} : {result}")
-
-
