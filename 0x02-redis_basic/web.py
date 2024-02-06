@@ -28,7 +28,7 @@ def cache(method: Callable) -> Callable:
 
         if not db.get(result_key):
             result = method(url)
-            db.set(url_key, 0)
+            db.incr(url_key)
             db.setex(result_key, time_live, result)
         else:
             db.incr(url_key)
