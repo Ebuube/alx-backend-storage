@@ -65,7 +65,7 @@ def replay(method: Callable) -> None:
         arg = arg_bytes.decode('utf-8')
         result_bytes = outputs[step]
         result = result_bytes.decode('utf-8')
-        print("{}({}) -> {}".format(name, arg, result))
+        print("{}(*{}) -> {}".format(name, arg, result))
 
 
 class Cache:
