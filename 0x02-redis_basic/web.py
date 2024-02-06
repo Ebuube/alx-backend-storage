@@ -27,12 +27,10 @@ def cache(method: Callable) -> Callable:
         result_key = "output:{}".format(url)
 
         if not db.get(result_key):
-            print(f"db.get({result_key}): {str(db.get(result_key))[0:5]}")
             result = method(url)
             db.incr(url_key)
             db.setex(result_key, time_live, result)
         else:
-            print(f"db.get({result_key}): {str(db.get(result_key))[0:5]}")
             db.incr(url_key)
             result_bytes = db.get(result_key)
             if result_bytes:
