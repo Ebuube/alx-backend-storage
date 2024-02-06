@@ -14,8 +14,14 @@ for count in range(0, 3):
 
 print("Checking availability")
 for count in range(0, 3):
-    sleep(2)
-    print("{}: {}".format(url, db.get(f'count:{url}')))
+    sleep(3)
+    result = db.get(f'output:{url}')
+    if result:
+        result = result.decode('utf-8')
+    calls = db.get(f'count:{url}')
+    if calls:
+        calls = calls.decode('utf-8')
+    print("{}: {} : {}".format(url, calls, result[:5]))
 
 
 
@@ -26,5 +32,14 @@ for count in range(0, 3):
 
 print("Checking availability")
 for count in range(0, 3):
-    sleep(2)
-    print("{}: {}".format(url, db.get(f'count:{url}')))
+    sleep(3)
+    result = db.get(f'output:{url}')
+    if result:
+        result = result.decode('utf-8')
+    calls = db.get(f'count:{url}')
+    if calls:
+        calls = calls.decode('utf-8')
+    if result:
+        print("{}: {} : {}".format(url, calls, result[:5]))
+    else:
+        print("{}: {} : {}".format(url, calls, result))

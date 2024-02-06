@@ -12,21 +12,33 @@ db.flushdb()
 
 
 def cache(method: Callable) -> Callable:
+    """
+    Track the number of times a particular url was accessed
+    Cache the result
+    Each cache lasts for only 10 seconds
+    """
     @wraps(method)
     def wrapper(url: str) -> str:
+        """
+        Execute logic
+        """
         time_live = 10
         url_key = "count:{}".format(url)
         result_key = "output:{}".format(url)
 
-        if not db.get(url_key):
+        if not db.get(result_key):
+            print(f"db.get({result_key}): {str(db.get(result_key))[0:5]}")
             result = method(url)
-            db.setex(url_key, time_live, 1)
+            db.incr(url_key)
             db.setex(result_key, time_live, result)
         else:
+            print(f"db.get({result_key}): {str(db.get(result_key))[0:5]}")
             db.incr(url_key)
             result_bytes = db.get(result_key)
             if result_bytes:
                 result = result_bytes.decode('utf-8')
+            else:
+                result = result_bytes
 
         return result
     return wrapper
@@ -35,7 +47,6 @@ def cache(method: Callable) -> Callable:
 @cache
 def get_page(url: str) -> str:
     """
-    Track the number of times a particular url was accessed
-    Each cache lasts for only 10 seconds
+    Fetch a page from url
     """
     return requests.get(url).text
