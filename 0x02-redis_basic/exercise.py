@@ -60,10 +60,8 @@ def replay(method: Callable) -> None:
     inputs = db.lrange("{}:inputs".format(name), 0, -1)
     outputs = db.lrange("{}:outputs".format(name), 0, -1)
     print("{} was called {} times:".format(name, num_calls))
-    for step in range(0, num_calls):
-        arg_bytes = inputs[step]
+    for arg_bytes, result_bytes in zip(inputs, outputs):
         arg = arg_bytes.decode('utf-8')
-        result_bytes = outputs[step]
         result = result_bytes.decode('utf-8')
         print("{}(*{}) -> {}".format(name, arg, result))
 
