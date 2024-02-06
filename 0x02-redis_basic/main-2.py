@@ -24,7 +24,8 @@ for value, fn in TEST_CASES.items():
 # Test automatice parametrization
 TEST_CASES = {
     "Hello string": cache.get_str,
-    1234567: cache.get_int
+    1234567: cache.get_int,
+    b"foo": int
 }
 
 for value, fn in TEST_CASES.items():
