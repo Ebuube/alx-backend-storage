@@ -11,15 +11,14 @@ def count_calls(method: Callable) -> Callable:
     Track how many times a method of a class is called
     """
     @wraps(method)
-    def wrapper(*args: Any, **kwargs: Any) -> Any:
+    def wrapper(self, *args: Any, **kwargs: Any) -> Any:
         """
         Increment the number of calls
         Initialize to 1 if it is first call
         """
-        self = args[0]
         self._redis.incr(method.__qualname__, 1)
         # Done increment
-        return method(*args, **kwargs)
+        return method(self, *args, **kwargs)
     return wrapper
 
 
