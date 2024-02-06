@@ -6,20 +6,20 @@ from typing import Union, Callable, Any
 from functools import wraps
 
 
-def count_calls(f: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
     """
     Track how many times a method of a class is called
     """
-    @wraps(f)
+    @wraps(method)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         """
         Increment the number of calls
         Initialize to 1 if it is first call
         """
         self = args[0]
-        self._redis.incr(f.__qualname__, 1)
+        self._redis.incr(method.__qualname__, 1)
         # Done increment
-        return f(*args, **kwargs)
+        return method(*args, **kwargs)
     return wrapper
 
 
