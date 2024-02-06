@@ -2,7 +2,7 @@
 """Writing strings to Redis"""
 import redis
 import uuid
-from typing import Union
+from typing import Union, Callable
 
 
 class Cache:
@@ -24,3 +24,32 @@ class Cache:
         self._redis.set(key, data)
 
         return key
+
+    def get(self,
+            key: str,
+            fn: Callable) -> Union[str, bytes, int, float, None]:
+        """Return a key from Redis server"""
+        val = self._redis.get(key)
+        if not val:
+            return None
+
+        if fn is None:
+            return val
+
+        return fn(val)
+
+    def get_str(self, key: str) -> Union[str, bytes, int, float, None]:
+        """Return a string value"""
+        val = self._redis.get(key)
+        if not val:
+            return None
+
+        return val.decode('utf-8')
+
+    def get_int(self, key: str) -> Union[str, bytes, int, float, None]:
+        """Return a integer value"""
+        val = self._redis.get(key)
+        if not val:
+            return None
+
+        return int(val)
