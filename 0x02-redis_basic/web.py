@@ -24,7 +24,7 @@ def cache(method: Callable) -> Callable:
         """
         time_live = 10
         url_key = "count:{}".format(url)
-        result_key = "result:{}".format(url)
+        result_key = "output:{}".format(url)
 
         if not db.get(result_key):
             result = method(url)

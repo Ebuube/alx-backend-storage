@@ -16,7 +16,7 @@ for count in range(0, 4):
     time_live = 3
     sleep(time_live)
     calls = db.get(f'count:{url}')
-    result_bytes = db.get(f'result:{url}')
+    result_bytes = db.get(f'output:{url}')
     if result_bytes:
         result = result_bytes.decode('utf-8')[0:5]
     else:
@@ -33,7 +33,7 @@ for count in range(0, 4):
     time_live = 3
     sleep(time_live)
     calls = db.get(f'count:{url}')
-    result_bytes = db.get(f'result:{url}')
+    result_bytes = db.get(f'output:{url}')
     if result_bytes:
         result = result_bytes.decode('utf-8')[0:5]
     else:
