@@ -8,7 +8,7 @@ from typing import Callable
 
 # Make connection to Redis server
 db = redis.Redis()
-db.flushdb()
+# db.flushdb()
 
 
 def cache(method: Callable) -> Callable:
