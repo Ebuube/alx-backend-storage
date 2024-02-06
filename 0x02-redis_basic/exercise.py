@@ -45,6 +45,29 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable) -> None:
+    """
+    Display the history of calls of a particular function
+    """
+    db = redis.Redis()
+    name = method.__qualname__
+    num_calls_bytes = db.get(name)
+    if num_calls_bytes is None:
+        num_calls = 0
+    else:
+        num_calls = int(num_calls_bytes.decode('utf-8'))
+
+    inputs = db.lrange("{}:inputs".format(name), 0, -1)
+    outputs = db.lrange("{}:outputs".format(name), 0, -1)
+    print("{} was called {} times:".format(name, num_calls))
+    for step in range(0, num_calls):
+        arg_bytes = inputs[step]
+        arg = arg_bytes.decode('utf-8')
+        result_bytes = outputs[step]
+        result = result_bytes.decode('utf-8')
+        print("{}({}) -> {}".format(name, arg, result))
+
+
 class Cache:
     """
     Redis Cache
